@@ -1,8 +1,8 @@
 import subprocess
 import sys
 
-mainBranchName ="main"
-releaseBranchName ="18.XB000.PSPX8.OEM"
+mainBranchName ="Main"
+releaseBranchName ="19.XB000.PSPX9"
 depotPrefix ="//depot/"
 filePrefix ="C://"
 
@@ -10,14 +10,14 @@ filePrefix ="C://"
 class File:
     def __init__(self, input=""):
         arr = input.split('/') 
-        self.workspaceFilePath = input.replace(filePrefix,depotPrefix)
-        self.Name = arr[len(arr)-1]
+        self.fileName = arr[len(arr)-1]
         self.branchName = arr[4]    
-        self.allPath = input[0:input.find(self.Name)] 
-        self.pathWithoutBranch = input[input.find(self.branchName)+len(self.branchName):len(input)] 
-        self.FileExName = self.Name.split('.')[1]
+        self.FileExName = self.fileName.split('.')[1]
 
-        #print self.pathWithoutBranch
+        self.allPath = input
+        self.workspaceFilePath = input.replace(filePrefix,depotPrefix)
+        self.pathWithoutBranch = input[input.find(self.branchName)+len(self.branchName):len(input)] 
+        #print input
 
 def replaceStr(input= ""):
     splitPos = input.find("#")
@@ -44,7 +44,8 @@ if __name__ == '__main__':
 
     matchArr= [[a,b] for a in releaseFileArr for b in mainFileArr if a.pathWithoutBranch == b.pathWithoutBranch]
     
-    for a,b in mainFileArr:
+    for a,b in matchArr:
+        #print a.allPath ,b.allPath
         cmd = ["diff",a,b]
         subprocess.call(cmd)
 
