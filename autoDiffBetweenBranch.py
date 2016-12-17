@@ -44,6 +44,7 @@ if __name__ == '__main__':
 
     matchArr= [[a,b] for a in releaseFileArr for b in mainFileArr if a.pathWithoutBranch == b.pathWithoutBranch]
     
-
-
+    for a,b in mainFileArr:
+        cmd = ["diff",a,b]
+        subprocess.call(cmd)
 
